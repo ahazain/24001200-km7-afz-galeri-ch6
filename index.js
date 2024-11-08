@@ -1,3 +1,4 @@
+require("dotenv").config();
 const config = require("./configs/config");
 const express = require("express");
 const route = require("./routes/route");
