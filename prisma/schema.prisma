@@ -12,10 +12,17 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+model image {
+  id        Int       @id @default(autoincrement())
+  urlGambar String    @unique
+  fileUpload fileUpload?  
+}
 
 model fileUpload {
-  id        Int @id @default(autoincrement())
+  id        Int     @id @default(autoincrement())
   judul     String
   deskripsi String
-  urlGambar String @unique
+  imageId   Int    @unique
+  image     image @relation(fields: [imageId], references: [id], onDelete: Cascade)
 }
+
