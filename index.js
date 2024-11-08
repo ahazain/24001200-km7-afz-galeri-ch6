@@ -1,11 +1,13 @@
+const config = require("./configs/config");
 const express = require("express");
+const route = require("./routes/route");
 const app = express();
-const PORT = 3000;
+const port = config.port;
 
 app.get("/", (req, res) => {
   res.send("hello word");
 });
-
-app.listen(PORT, () => {
-  console.log(`I LOVE YOU ${PORT}`);
+app.use("/", route);
+app.listen(port, () => {
+  console.log(`I LOVE YOU ${port}`);
 });
