@@ -8,6 +8,11 @@ class Upload {
       const showData = await prisma.fileUpload.findMany({
         include: { image: true },
       });
+      if (!showData || showData.length === 0) {
+        return res
+          .status(404)
+          .json({ status: 404, message: "no list file", data: [] });
+      }
       res.status(200).json({
         status: 200,
         message: "successul show list upload file",
@@ -15,15 +20,23 @@ class Upload {
       });
     } catch (error) {
       console.log(error, "=====INI ERROR GUYS");
-      res.status(500).json("ERROR SERVER");
+      res.status(500).json({ status: 500, message: "server error" });
     }
   }
   static async showDetailsFile(req, res) {
+    const id = parseInt(req.params.id);
     try {
       const showDataId = await prisma.fileUpload.findUnique({
-        where: { id: parseInt(req.params.id) },
+        where: { id },
         include: { image: true },
       });
+      if (!showDataId || showDataId.length === 0) {
+        return res.status(404).json({
+          status: 404,
+          message: `detils file with ID ${id} not found`,
+          data: [],
+        });
+      }
       res.status(200).json({
         status: 200,
         message: "successul show details upload file",
